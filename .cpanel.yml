@@ -1,41 +1,6 @@
 ---
 deployment:
   tasks:
-    - >-
-      #!/bin/bashs
+    - export DEPLOYPATH=/home/onoostore/oonoo/public_html/hedrasoul
 
-      # **Ensure DEPLOYPATH is set correctly in your environment**
-      # Example: export DEPLOYPATH=/home/onoostore/oonoo/public_html/hedra/
-
-      mkdir -p "$DEPLOYPATH"
-
-      handle_error() {
-        echo "Error: $1" >&2
-        exit 1
-      }
-
-      if [[ -z "$DEPLOYPATH" ]]; then
-        handle_error "DEPLOYPATH variable is not set!"
-      fi
-
-      if [[ "$(id -u)" != "0" ]]; then
-        handle_error "This script requires root privileges. Please run as sudo."
-      fi
-
-      if command -v rsync >/dev/null 2>&1; then
-        rsync -avz --remove-destination \
-             --exclude=".git" --exclude=".DS_Store" \
-             app "$DEPLOYPATH/app" \
-             * "$DEPLOYPATH" || handle_error "rsync failed!"
-      else
-        cp -rf --remove-destination \
-             app "$DEPLOYPATH/app" \
-             * "$DEPLOYPATH" || handle_error "cp failed!"
-      fi
-
-      # Uncomment if needed:
-      # if [[ -l app ]]; then
-      #   cp -l app "$DEPLOYPATH/app"
-      # fi
-
-      echo "Deployment completed successfully!"
+    - /bin/cp -fr * $DEPLOYPATH
