@@ -1,6 +1,48 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/onoostore/oonoo/public_html/hedra/
-    - /bin/cp -ird app $DEPLOYPATH
-    - /bin/cp -fr * $DEPLOYPATH
+    - |
+      #!/bin/bash
+
+      # **Ensure DEPLOYPATH is set correctly in your environment**
+      # Example: export DEPLOYPATH=/home/onoostore/oonoo/public_html/hedra/
+
+      # Create missing directory if needed
+      mkdir -p "$DEPLOYPATH"
+
+      # Define a function for error handling
+      handle_error() {
+        echo "Error: $1" >&2
+        exit 1
+      }
+
+      # Check if DEPLOYPATH is set and valid
+      if [[ -z "$DEPLOYPATH" ]]; then
+        handle_error "DEPLOYPATH variable is not set!"
+      fi
+
+      # Check for root privileges (adjust as needed)
+      if [[ "$(id -u)" != "0" ]]; then
+        handle_error "This script requires root privileges. Please run as sudo."
+      fi
+
+      # Choose between cp and rsync
+      if command -v rsync >/dev/null 2>&1; then
+        # Use rsync with informative options
+        rsync -avz --remove-destination \
+             --exclude=".git" --exclude=".DS_Store" \
+             app "$DEPLOYPATH/app" \
+             * "$DEPLOYPATH" || handle_error "rsync failed!"
+      else
+        # Use cp with caution if rsync is unavailable
+        cp -rf --remove-destination \
+             app "$DEPLOYPATH/app" \
+             * "$DEPLOYPATH" || handle_error "cp failed!"
+      fi
+
+      # Optionally handle symbolic links (uncomment if needed)
+      # if [[ -l app ]]; then
+      #   cp -l app "$DEPLOYPATH/app"
+      # fi
+
+      echo "Deployment completed successfully!"
