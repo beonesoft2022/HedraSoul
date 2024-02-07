@@ -2,5 +2,5 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/onoostore/oonoo/public_html/hedrasoul
-    - /bin/cp -R HedraSoul $DEPLOYPATH
+    - /bin/cp -ird $SRCDIR $DEPLOYPATH
 
