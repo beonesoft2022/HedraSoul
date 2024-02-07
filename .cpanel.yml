@@ -1,6 +1,6 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/onoostore/oonoo/public_html/hedrasoul
+    - export DEPLOYPATH=/home/onoostore/oonoo/public_html/hedrasoul/
     - /bin/cp -ird app $DEPLOYPATH
 
