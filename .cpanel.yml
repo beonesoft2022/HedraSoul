@@ -2,7 +2,7 @@
 deployment:
   tasks:
     - >-
-      #!/bin/bash
+      #!/bin/bashs
 
       # **Ensure DEPLOYPATH is set correctly in your environment**
       # Example: export DEPLOYPATH=/home/onoostore/oonoo/public_html/hedra/
