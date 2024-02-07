@@ -1,6 +1,6 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/onoostore/oonoo/public_html/hedra
+    - export DEPLOYPATH=/home/onoostore/oonoo/public_html/hedra/
     - /bin/cp -ird app $DEPLOYPATH
     - /bin/cp -fr * $DEPLOYPATH
